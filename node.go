@@ -1,6 +1,5 @@
 package merkle4go
 
-// Node represents a node in the Merkle tree
 type Node struct {
 	Hash   []byte
 	Left   *Node
@@ -8,7 +7,6 @@ type Node struct {
 	IsLeaf bool
 }
 
-// NewLeafNode creates a new leaf node
 func NewLeafNode(hash []byte) *Node {
 	return &Node{
 		Hash:   hash,
@@ -18,7 +16,6 @@ func NewLeafNode(hash []byte) *Node {
 	}
 }
 
-// NewInternalNode creates a new internal node
 func NewInternalNode(left, right *Node, hash []byte) *Node {
 	return &Node{
 		Hash:   hash,

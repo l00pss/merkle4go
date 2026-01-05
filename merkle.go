@@ -27,7 +27,6 @@ func NewMerkleTree[T any](data []T, hasher Hasher, converter DataConverter[T]) (
 	leaves := make([]*Node, len(data))
 	for i, item := range data {
 		bytes := converter.ToBytes(item)
-		// Security: Prefix leaf nodes with 0x00 to prevent second preimage attacks
 		hash := hasher.Hash(append([]byte{0x00}, bytes...))
 		leaves[i] = NewLeafNode(hash)
 	}
@@ -55,7 +54,6 @@ func (mt *MerkleTree[T]) buildTree(nodes []*Node) *Node {
 		}
 
 		combined := append(left.Hash, right.Hash...)
-		// Security: Prefix internal nodes with 0x01
 		parentHash := mt.hasher.Hash(append([]byte{0x01}, combined...))
 		parent := NewInternalNode(left, right, parentHash)
 		nextLevel = append(nextLevel, parent)

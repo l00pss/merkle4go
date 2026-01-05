@@ -2,7 +2,6 @@ package merkle4go
 
 import "bytes"
 
-// Proof represents a Merkle proof for a specific leaf
 type Proof struct {
 	Index  int
 	Hashes [][]byte
@@ -25,7 +24,6 @@ func (p *Proof) Verify(rootHash []byte, hasher Hasher) bool {
 		} else {
 			combined = append(siblingHash, computedHash...)
 		}
-		// Security: Prefix internal nodes with 0x01
 		computedHash = hasher.Hash(append([]byte{0x01}, combined...))
 		index /= 2
 	}
