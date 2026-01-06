@@ -111,7 +111,6 @@ func (mt *MerkleTree[T]) GetProof(index int) (*Proof, error) {
 			}
 
 			combined := append(left.Hash, right.Hash...)
-			// Security: Prefix internal nodes with 0x01
 			parentHash := mt.hasher.Hash(append([]byte{0x01}, combined...))
 			parent := NewInternalNode(left, right, parentHash)
 			nextLevel = append(nextLevel, parent)
@@ -132,7 +131,6 @@ func (mt *MerkleTree[T]) Verify(data []T) bool {
 
 	for i, item := range data {
 		bytesData := mt.converter.ToBytes(item)
-		// Re-calculate leaf hash with prefix
 		hash := mt.hasher.Hash(append([]byte{0x00}, bytesData...))
 		if !bytes.Equal(hash, mt.leaves[i].Hash) {
 			return false
